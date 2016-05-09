@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ReactJs</title>
+<!--<script src="js/react.js"></script>-->
+<script src="js/react-with-addons.js"></script>
+<script src="js/react-dom.js"></script>
+<script src="js/browser.min.js"></script>
+</head>
+
+<body>
+	<div id="demo"></div>
+	<script type="text/babel">
+		
+		var FirstComponent = React.createClass({
+			mixins:[React.addons.LinkedStateMixin],
+			getInitialState:function(){
+				return {
+					msg:this.props.value
+				}
+			},
+			render:function(){
+				return (
+					/*<div>
+						<h1>{this.props.title}</h1>
+						<input type="text" value={this.state.msg} onChange={this.changeHandle} />
+						<input type="button" value={this.props.sendName} />
+						<p>{this.state.msg}</p>
+					</div>*/
+					<div>
+						<h1>{this.props.title}</h1>
+						<input type="text" valueLink={this.linkState('msg')} />
+						<input type="button" value={this.props.sendName} />
+						<p>{this.state.msg}</p>
+						<ListComponent listArr={this.props.listArr} />
+					</div>
+				)
+			}/*,
+			changeHandle:function(ev){
+				this.setState({
+					msg:ev.target.value
+				});
+			}*/
+		});
+		
+		var ListComponent = React.createClass({
+			render : function(){
+				return (
+					<ul>
+						{
+							this.props.listArr.map(function(item,index){
+								return <ItemComponent key={index} item={item} />
+							})
+						}
+					</ul>
+				)
+			}
+		});
+		
+		var ItemComponent = React.createClass({
+			render : function(){
+				return (
+					<li>{this.props.item}</li>
+				)
+			}
+		});
+		
+		/*var title = 'hello, ReactJs';
+		var send = '提交';*/
+		
+		var obj = {
+			title : 'hello, ReactJs!!',
+			sendName : '提交',
+			value:'请输入留言',
+			listArr:[1,2,3,4,5,6]
+		};
+		
+		ReactDOM.render(
+			<FirstComponent {...obj} /*title={obj.title} sendName={obj.sendName}*/ />,
+			document.getElementById('demo'),
+			function(){
+				console.log('渲染完成');
+			}
+		);
+	</script>
+</body>
+</html>
