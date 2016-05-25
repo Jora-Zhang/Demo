@@ -17,7 +17,8 @@
 			mixins:[React.addons.LinkedStateMixin],
 			getInitialState:function(){
 				return {
-					msg:this.props.value
+					msg:this.props.value,
+					listArr:this.props.listArr
 				}
 			},
 			render:function(){
@@ -30,12 +31,17 @@
 					</div>*/
 					<div>
 						<h1>{this.props.title}</h1>
-						<input type="text" valueLink={this.linkState('msg')} />
-						<input type="button" value={this.props.sendName} />
+						<input type="text" ref="text_input" valueLink={this.linkState('msg')} />
+						<input type="button" value={this.props.sendName} onClick={this.addItemHandle} />
 						<p>{this.state.msg}</p>
-						<ListComponent listArr={this.props.listArr} />
+						<ListComponent listArr={this.state.listArr} />
 					</div>
 				)
+			},
+			addItemHandle : function(ev){
+				var value = this.refs.text_input.value;
+				var newArr = this.state.listArr.concat([value]);
+				this.setState({listArr:newArr});
 			}/*,
 			changeHandle:function(ev){
 				this.setState({
